@@ -1,0 +1,119 @@
+var ViinyForm = (() => {
+
+    var formWrapper, options, formArr, currentFormIndex;
+    currentFormIndex = 0;
+
+    options = {
+        'onInit': () => {},
+        'onNext': () => {},
+        'onPrev': () => {},
+        'onInvalid': () => {},
+        'onComplete': () => {},
+        'nextButtonClass': 'btn-next',
+        'prevButtonClass': 'btn-prev'
+    }
+    
+    function ViinyForm(el, opt) {
+        checkWrapperElement(el);
+        extend(options, opt);
+        init();
+    }
+
+    const init = () => {
+        formArr = formWrapper.querySelectorAll('form');
+
+        setForms();
+        setNextButtons();
+        setPrevButtons();
+        
+        options['onInit']();
+    };
+
+    const checkWrapperElement = (el) => {
+        let wrapperElement = document.querySelector(el);
+        
+        if (wrapperElement) {
+            formWrapper = wrapperElement;
+        }
+        else {
+            throw("Wrapper element not found");
+        }
+    };
+
+    const setForms = () => {
+        formArr.forEach((element, index) => {
+            if (index !== 0) {
+                element.style.display = 'none';
+            }
+
+            element.addEventListener('submit', (e) => {
+                e.preventDefault();
+            });
+        });
+    };
+
+    const setNextButtons = () => {
+        const nextButtons = formWrapper.querySelectorAll(`.${options['nextButtonClass']}`);
+
+        nextButtons.forEach((element) => {
+            element.addEventListener('click', () => {
+                if (currentFormIndex <= formArr.length - 1) {
+                    if (!formArr[currentFormIndex].checkValidity()) {
+                        formArr[currentFormIndex].classList.add('was-validated');
+                        options['onInvalid'](currentFormIndex, formArr[currentFormIndex]);
+                        return;
+                    }
+
+                    if (formArr[currentFormIndex]) {
+                        formArr[currentFormIndex].style.display = 'none';
+                    }
+
+                    currentFormIndex++;
+                    
+                    if (formArr[currentFormIndex]) {
+                        formArr[currentFormIndex].style.display = 'block';
+                    }
+                    
+                    if (currentFormIndex > formArr.length - 1) {
+                        options['onComplete'](currentFormIndex-1, formArr[currentFormIndex-2]);
+                        return;
+                    }
+
+                    options['onNext'](currentFormIndex, formArr[currentFormIndex-1]);
+                }                
+            });
+        });
+    };
+
+    const setPrevButtons = () => {
+        const prevButtons = formWrapper.querySelectorAll(`.${options['prevButtonClass']}`);
+
+        prevButtons.forEach((element) => {
+            element.addEventListener('click', () => {
+                if (currentFormIndex > 0) {
+                    if (formArr[currentFormIndex]) {
+                        formArr[currentFormIndex].style.display = 'none';
+                    }
+
+                    currentFormIndex--;
+                    
+                    if (formArr[currentFormIndex]) {
+                        formArr[currentFormIndex].style.display = 'block';
+                    }
+                    
+                    options['onPrev'](currentFormIndex, formArr[currentFormIndex+1]);
+                }
+            });
+        });
+    };
+
+    const extend = (obj, props) => {
+		for (let prop in props) {
+			if (props.hasOwnProperty(prop)) {
+				obj[prop] = props[prop];
+			}
+    	}
+	};
+    
+    return ViinyForm;
+})();
