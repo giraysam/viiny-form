@@ -4,17 +4,17 @@ var ViinyForm = (() => {
     currentFormIndex = 0;
 
     options = {
-        'onInit': () => {},
+        'onInit': () => { },
         'onBeforeNext': () => true,
-        'onNext': () => {},
+        'onNext': () => { },
         'onBeforePrev': () => true,
-        'onPrev': () => {},
-        'onInvalid': () => {},
-        'onComplete': () => {},
+        'onPrev': () => { },
+        'onInvalid': () => { },
+        'onComplete': () => { },
         'nextButtonClass': 'btn-next',
         'prevButtonClass': 'btn-prev'
     }
-    
+
     function ViinyForm(el, opt) {
         checkWrapperElement(el);
         extend(options, opt);
@@ -27,18 +27,18 @@ var ViinyForm = (() => {
         setForms();
         setNextButtons();
         setPrevButtons();
-        
+
         options['onInit']();
     };
 
     const checkWrapperElement = (el) => {
         let wrapperElement = document.querySelector(el);
-        
+
         if (wrapperElement) {
             formWrapper = wrapperElement;
         }
         else {
-            throw("Wrapper element not found");
+            throw ("Wrapper element not found");
         }
     };
 
@@ -75,17 +75,17 @@ var ViinyForm = (() => {
                     }
 
                     currentFormIndex++;
-                    
+
                     if (formArr[currentFormIndex]) {
                         formArr[currentFormIndex].style.display = 'block';
                     }
-                    
+
                     if (currentFormIndex > formArr.length - 1) {
-                        options['onComplete'](currentFormIndex-1, formArr[currentFormIndex-2]);
+                        options['onComplete'](currentFormIndex - 1, formArr[currentFormIndex - 2]);
                         return;
                     }
 
-                    options['onNext'](currentFormIndex, formArr[currentFormIndex-1]);
+                    options['onNext'](currentFormIndex, formArr[currentFormIndex - 1]);
                 }
             });
         });
@@ -106,24 +106,24 @@ var ViinyForm = (() => {
                     }
 
                     currentFormIndex--;
-                    
+
                     if (formArr[currentFormIndex]) {
                         formArr[currentFormIndex].style.display = 'block';
                     }
-                    
-                    options['onPrev'](currentFormIndex, formArr[currentFormIndex+1]);
+
+                    options['onPrev'](currentFormIndex, formArr[currentFormIndex + 1]);
                 }
             });
         });
     };
 
     const extend = (obj, props) => {
-		for (let prop in props) {
-			if (props.hasOwnProperty(prop)) {
-				obj[prop] = props[prop];
-			}
-    	}
-	};
-    
+        for (let prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                obj[prop] = props[prop];
+            }
+        }
+    };
+
     return ViinyForm;
 })();
