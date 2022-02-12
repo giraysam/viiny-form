@@ -1,61 +1,51 @@
 var ViinyForm = (() => {
-
-    var formWrapper, options, formArr, currentFormIndex;
-    currentFormIndex = 0;
-
-    options = {
-        'onInit': () => { },
-        'onBeforeNext': () => true,
-        'onNext': () => { },
-        'onBeforePrev': () => true,
-        'onPrev': () => { },
-        'onInvalid': () => { },
-        'onComplete': () => { },
-        'nextButtonClass': 'btn-next',
-        'prevButtonClass': 'btn-prev'
-    }
-
     /**
      * ViinyForm constructor method.
      * @param {string} el form wrapper object class or id
      * @param {object} opt option parameters
      */
-    function ViinyForm(el, opt) {
-        checkWrapperElement(el);
-        extend(options, opt);
-        init();
+    function ViinyForm(el, options) {
+        var defaultOptions = {
+            'onInit': () => { },
+            'onBeforeNext': () => true,
+            'onNext': () => { },
+            'onBeforePrev': () => true,
+            'onPrev': () => { },
+            'onInvalid': () => { },
+            'onComplete': () => { },
+            'nextButtonClass': 'btn-next',
+            'prevButtonClass': 'btn-prev'
+        }
+
+        options = extend(defaultOptions, options);
+
+        var viinyForm = new ViinyForm.instance(el, options);
+        viinyForm.setForms();
+        viinyForm.setNextButtons();
+        viinyForm.setPrevButtons();
+        return viinyForm;
     }
 
-    /**
-     * initializing events and elements
-     */
-    const init = () => {
-        formArr = formWrapper.querySelectorAll('form');
+    ViinyForm.instance = function (el, options) {
+        this.options = options;
+        this.currentFormIndex = 0;
 
-        setForms();
-        setNextButtons();
-        setPrevButtons();
-
-        options['onInit']();
-    };
-
-    /**
-     * to check wrapper element.
-     * @param {string} el wrapper object class or id
-     */
-    const checkWrapperElement = (el) => {
         let wrapperElement = document.querySelector(el);
 
         if (wrapperElement) {
-            formWrapper = wrapperElement;
+            this.formWrapper = wrapperElement;
         }
         else {
             throw ("Wrapper element not found");
         }
-    };
+        
+        this.formArr = this.formWrapper.querySelectorAll('form');
 
-    const setForms = () => {
-        formArr.forEach((element, index) => {
+        this.options['onInit']();
+    }
+
+    ViinyForm.instance.prototype.setForms = function () {
+        this.formArr.forEach((element, index) => {
             if (index !== 0) {
                 element.style.display = 'none';
             }
@@ -66,64 +56,64 @@ var ViinyForm = (() => {
         });
     };
 
-    const setNextButtons = () => {
-        const nextButtons = formWrapper.querySelectorAll(`.${options['nextButtonClass']}`);
+    ViinyForm.instance.prototype.setNextButtons = function () {
+        const nextButtons = this.formWrapper.querySelectorAll(`.${this.options['nextButtonClass']}`);
 
         nextButtons.forEach((element) => {
             element.addEventListener('click', () => {
-                if (!options['onBeforeNext'](currentFormIndex, formArr[currentFormIndex])) {
+                if (!this.options['onBeforeNext'](this.currentFormIndex, this.formArr[this.currentFormIndex])) {
                     return;
                 }
 
-                if (currentFormIndex <= formArr.length - 1) {
-                    if (!formArr[currentFormIndex].checkValidity()) {
-                        formArr[currentFormIndex].classList.add('was-validated');
-                        options['onInvalid'](currentFormIndex, formArr[currentFormIndex]);
+                if (this.currentFormIndex <= this.formArr.length - 1) {
+                    if (!this.formArr[this.currentFormIndex].checkValidity()) {
+                        this.formArr[this.currentFormIndex].classList.add('was-validated');
+                        this.options['onInvalid'](this.currentFormIndex, this.formArr[this.currentFormIndex]);
                         return;
                     }
 
-                    if (formArr[currentFormIndex]) {
-                        formArr[currentFormIndex].style.display = 'none';
+                    if (this.formArr[this.currentFormIndex]) {
+                        this.formArr[this.currentFormIndex].style.display = 'none';
                     }
 
-                    currentFormIndex++;
+                    this.currentFormIndex++;
 
-                    if (formArr[currentFormIndex]) {
-                        formArr[currentFormIndex].style.display = 'block';
+                    if (this.formArr[this.currentFormIndex]) {
+                        this.formArr[this.currentFormIndex].style.display = 'block';
                     }
 
-                    if (currentFormIndex > formArr.length - 1) {
-                        options['onComplete'](currentFormIndex - 1, formArr[currentFormIndex - 2]);
+                    if (this.currentFormIndex > this.formArr.length - 1) {
+                        this.options['onComplete'](this.currentFormIndex, this.formArr[this.currentFormIndex - 1]);
                         return;
                     }
 
-                    options['onNext'](currentFormIndex, formArr[currentFormIndex - 1]);
+                    this.options['onNext'](this.currentFormIndex, this.formArr[this.currentFormIndex - 1]);
                 }
             });
         });
     };
 
-    const setPrevButtons = () => {
-        const prevButtons = formWrapper.querySelectorAll(`.${options['prevButtonClass']}`);
+    ViinyForm.instance.prototype.setPrevButtons = function () {
+        const prevButtons = this.formWrapper.querySelectorAll(`.${this.options['prevButtonClass']}`);
 
         prevButtons.forEach((element) => {
             element.addEventListener('click', () => {
-                if (!options['onBeforePrev'](currentFormIndex, formArr[currentFormIndex])) {
+                if (!this.options['onBeforePrev'](this.currentFormIndex, this.formArr[this.currentFormIndex])) {
                     return;
                 }
 
-                if (currentFormIndex > 0) {
-                    if (formArr[currentFormIndex]) {
-                        formArr[currentFormIndex].style.display = 'none';
+                if (this.currentFormIndex > 0) {
+                    if (this.formArr[this.currentFormIndex]) {
+                        this.formArr[this.currentFormIndex].style.display = 'none';
                     }
 
-                    currentFormIndex--;
+                    this.currentFormIndex--;
 
-                    if (formArr[currentFormIndex]) {
-                        formArr[currentFormIndex].style.display = 'block';
+                    if (this.formArr[this.currentFormIndex]) {
+                        this.formArr[this.currentFormIndex].style.display = 'block';
                     }
 
-                    options['onPrev'](currentFormIndex, formArr[currentFormIndex + 1]);
+                    this.options['onPrev'](this.currentFormIndex, this.formArr[this.currentFormIndex + 1]);
                 }
             });
         });
@@ -135,6 +125,7 @@ var ViinyForm = (() => {
                 obj[prop] = props[prop];
             }
         }
+        return obj;
     };
 
     return ViinyForm;
