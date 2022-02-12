@@ -3,6 +3,11 @@
 
 [Demo](https://giraysam.github.io/viiny-form/) Page
 
+CDN
+```
+https://cdn.jsdelivr.net/gh/giraysam/viiny-form@main/dist/viiny-form.min.js
+```
+
 ## Usage
 #### Create an instance
 ```
@@ -33,6 +38,12 @@ new ViinyForm('.form-wrapper', {
 | prevButtonClass | set the previous button class for selector |
 
 ## Events
+#### onInit
+**Parameters**
+
+`{ number } countOfForm`
+
+------
 #### onBeforeNext
 **Parameters**
 
