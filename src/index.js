@@ -5,7 +5,9 @@ var ViinyForm = (() => {
 
     options = {
         'onInit': () => {},
+        'onBeforeNext': () => true,
         'onNext': () => {},
+        'onBeforePrev': () => true,
         'onPrev': () => {},
         'onInvalid': () => {},
         'onComplete': () => {},
@@ -57,6 +59,10 @@ var ViinyForm = (() => {
 
         nextButtons.forEach((element) => {
             element.addEventListener('click', () => {
+                if (!options['onBeforeNext'](currentFormIndex, formArr[currentFormIndex])) {
+                    return;
+                }
+
                 if (currentFormIndex <= formArr.length - 1) {
                     if (!formArr[currentFormIndex].checkValidity()) {
                         formArr[currentFormIndex].classList.add('was-validated');
@@ -80,7 +86,7 @@ var ViinyForm = (() => {
                     }
 
                     options['onNext'](currentFormIndex, formArr[currentFormIndex-1]);
-                }                
+                }
             });
         });
     };
@@ -90,6 +96,10 @@ var ViinyForm = (() => {
 
         prevButtons.forEach((element) => {
             element.addEventListener('click', () => {
+                if (!options['onBeforePrev'](currentFormIndex, formArr[currentFormIndex])) {
+                    return;
+                }
+
                 if (currentFormIndex > 0) {
                     if (formArr[currentFormIndex]) {
                         formArr[currentFormIndex].style.display = 'none';

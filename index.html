@@ -54,22 +54,18 @@
         </div>
     </div>
 
-    <script src="./src/js/index.js"></script>
+    <script src="./src/index.js"></script>
     <script type="text/javascript">
         const vinnyForm = new ViinyForm('.form-wrapper', {
             'nextButtonClass': 'btn-next',
             'prevButtonClass': 'btn-prev',
             'onNext': (index, form) => {
-                alert("next: " + index);
+                console.log("next: " + index);
+                console.log(form);
             },
-            'onPrev': (index, form) => {
-                alert("prev: " + index);
-            },
-            'onInvalid': (index, form) => {
-                alert("invalid: " + index);
-            },
+            
             'onComplete': () => {
-                alert("completed");
+                console.log("completed");
             }
         });
     </script>
