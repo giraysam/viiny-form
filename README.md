@@ -11,11 +11,11 @@ https://cdn.jsdelivr.net/gh/giraysam/viiny-form@main/dist/viiny-form.min.js
 ## Usage
 #### Create an instance
 ```
-new ViinyForm('.form-wrapper');
+ViinyForm('.form-wrapper');
 ```
 OR
 ```
-new ViinyForm('.form-wrapper', {
+ViinyForm('.form-wrapper', {
     'nextButtonClass': 'btn-next',
     'prevButtonClass': 'btn-prev',
     'onComplete': () => {
