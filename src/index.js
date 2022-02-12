@@ -15,12 +15,20 @@ var ViinyForm = (() => {
         'prevButtonClass': 'btn-prev'
     }
 
+    /**
+     * ViinyForm constructor method.
+     * @param {string} el form wrapper object class or id
+     * @param {object} opt option parameters
+     */
     function ViinyForm(el, opt) {
         checkWrapperElement(el);
         extend(options, opt);
         init();
     }
 
+    /**
+     * initializing events and elements
+     */
     const init = () => {
         formArr = formWrapper.querySelectorAll('form');
 
@@ -31,6 +39,10 @@ var ViinyForm = (() => {
         options['onInit']();
     };
 
+    /**
+     * to check wrapper element.
+     * @param {string} el wrapper object class or id
+     */
     const checkWrapperElement = (el) => {
         let wrapperElement = document.querySelector(el);
 

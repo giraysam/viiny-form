@@ -56,14 +56,13 @@
 
     <script src="./src/index.js"></script>
     <script type="text/javascript">
-        const vinnyForm = new ViinyForm('.form-wrapper', {
+        new ViinyForm('.form-wrapper', {
             'nextButtonClass': 'btn-next',
             'prevButtonClass': 'btn-prev',
             'onNext': (index, form) => {
                 console.log("next: " + index);
                 console.log(form);
             },
-            
             'onComplete': () => {
                 console.log("completed");
             }
