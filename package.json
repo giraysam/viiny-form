@@ -1,0 +1,24 @@
+{
+  "name": "viiny-form",
+  "version": "1.0.0",
+  "description": "## Usage #### Create an instance ``` new ViinyForm('.form-wrapper'); ``` OR ``` new ViinyForm('.form-wrapper', {     'nextButtonClass': 'btn-next',     'prevButtonClass': 'btn-prev',     'onComplete': () => {         console.log(\"completed\");     } }); ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "uglifyjs ./src/index.js -o ./dist/viiny-form.min.js -c -m --source-map \"filename='./dist/viiny-form.min.js.map'\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giraysam/viiny-form.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giraysam/viiny-form/issues"
+  },
+  "homepage": "https://github.com/giraysam/viiny-form#readme",
+  "dependencies": {
+    "uglify-js": "^3.15.1"
+  }
+}
