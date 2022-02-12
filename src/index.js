@@ -38,7 +38,7 @@ var ViinyForm = (() => {
         else {
             throw ("Wrapper element not found");
         }
-        
+
         this.formArr = this.formWrapper.querySelectorAll('form');
 
         this.options['onInit']();
