@@ -33,32 +33,51 @@ new ViinyForm('.form-wrapper', {
 ## Events
 #### onBeforeNext
 **Parameters**
+
 `{ number } currentFormIndex`
+
 `{ object } form`
+
 `return` **True** or **False**
+
 ------
 #### onNext
 **Parameters**
+
 `{ number } currentFormIndex`
+
 `{ object } form`
+
 ------
 #### onBeforePrev
 **Parameters**
+
 `{ number } currentFormIndex`
+
 `{ object } form`
+
 `return` **True** or **False**
+
 ------
 #### onPrev
 **Parameters**
+
 `{ number } currentFormIndex`
+
 `{ object } form`
+
 ------
 #### onInvalid
 **Parameters**
+
 `{ number } currentFormIndex`
+
 `{ object } form`
+
 ------
 #### onComplete
 **Parameters**
+
 `{ number } currentFormIndex`
+
 `{ object } form`
