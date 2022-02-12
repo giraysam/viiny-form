@@ -41,7 +41,7 @@ var ViinyForm = (() => {
 
         this.formArr = this.formWrapper.querySelectorAll('form');
 
-        this.options['onInit']();
+        this.options['onInit'](this.formArr.length);
     }
 
     ViinyForm.instance.prototype.setForms = function () {
